@@ -91,7 +91,6 @@ public class HotelName implements RoomBookingInterfaceDAO {
 				LOGGER.debug("HotelId=" + HotelId);
 				String roomtype = rs.getString("RoomType");
 				LOGGER.debug("Roomtype=" + roomtype);
-				// file Write
 				String result = "HotelName=" + hotelname + "\n" + "Location=" + location1 + "\n" + "Rating=" + rating1
 						+ "\n" + "Status=" + Status + "\n" + "HotelId=" + HotelId + "\n" + "Roomtype=" + roomtype;
 				FileUtil.WriteToFile("HotelNameResult.txt", result);
@@ -99,7 +98,7 @@ public class HotelName implements RoomBookingInterfaceDAO {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e);
 		}
 
 		return null;
@@ -118,7 +117,7 @@ public class HotelName implements RoomBookingInterfaceDAO {
 
 		} catch (Exception e)
 		{
-			e.printStackTrace();
+			LOGGER.debug(e);
 		}
 
 		return null;
@@ -141,7 +140,7 @@ public class HotelName implements RoomBookingInterfaceDAO {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e);
 		}
 		return null;
 
@@ -163,7 +162,7 @@ public class HotelName implements RoomBookingInterfaceDAO {
 				LOGGER.debug(Status);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e);
 		}
 		return null;
 	}
@@ -190,7 +189,7 @@ public class HotelName implements RoomBookingInterfaceDAO {
 				LOGGER.debug(Payment);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e);
 		}
 		return null;
 	}
@@ -209,7 +208,7 @@ public class HotelName implements RoomBookingInterfaceDAO {
 			int rows = ps.executeUpdate();
 			LOGGER.debug("No of rows inserted :" + rows);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e);
 		}
 
 	}
@@ -221,7 +220,7 @@ public class HotelName implements RoomBookingInterfaceDAO {
 			int rows = stmt.executeUpdate(sql);
 			LOGGER.debug("No of rows updated :" + rows);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e);
 		}
 
 	}

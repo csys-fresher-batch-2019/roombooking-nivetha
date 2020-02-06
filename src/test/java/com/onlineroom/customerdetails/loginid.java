@@ -13,9 +13,7 @@ public class loginid {
 		@SuppressWarnings("resource")
 		Scanner s=new Scanner(System.in);
 		LOGGER.debug("EmailId:");
-		
 		String emailId=s.nextLine();
-		
 		LOGGER.debug("Enter Password:");
 		String password=s.nextLine();
 		Customer c=new Customer();

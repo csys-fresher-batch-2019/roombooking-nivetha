@@ -104,7 +104,7 @@ public class RoomType implements RoomTypeInterfaceDAO {
 			int rows = ps.executeUpdate();
 			LOGGER.debug("No of rows inserted :" + rows);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e);
 		}
 
 	}
@@ -116,16 +116,14 @@ public class RoomType implements RoomTypeInterfaceDAO {
 			int rows = stmt.executeUpdate(sql);
 			LOGGER.debug("No of rows deleted :" + rows);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e);
 		}
 
 	}
 
 	public String getUserCheckInOut(int userid) {
 		String sql = "select userid,check_in,check_out from room where userid=" + userid;
-		try (Connection con = ConnectionUtil.getConnect();
-				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery(sql)) {
+		try (Connection con = ConnectionUtil.getConnect();Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
 			LOGGER.debug(sql);
 			while (rs.next()) {
 				String Userid = rs.getString("userid");
@@ -136,7 +134,7 @@ public class RoomType implements RoomTypeInterfaceDAO {
 				LOGGER.debug("Out=" + CheckOut);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e);
 		}
 		return null;
 	}

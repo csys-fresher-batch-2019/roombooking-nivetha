@@ -81,22 +81,21 @@ public class Customer implements CustomerInterfaceDAO {
 
 	public String getUserDetailsByEmail(String emailId) {
 		String sql = "select user_id,user_name,city,email_id from customer_table where email_id='" + emailId + "'";
-		try (Connection con = ConnectionUtil.getConnect();
-				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery(sql)) {
+		try (Connection con = ConnectionUtil.getConnect();Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) 
+		{
 			LOGGER.debug(sql);
 			while (rs.next()) {
-				int userId = rs.getInt("user_id");
-				LOGGER.debug(userId);
-				String userName = rs.getString("user_name");
-				LOGGER.debug(userName);
-				String City = rs.getString("city");
-				LOGGER.debug(City);
+				int userid = rs.getInt("user_id");
+				LOGGER.debug(userid);
+				String username = rs.getString("user_name");
+				LOGGER.debug(username);
+				String city = rs.getString("city");
+				LOGGER.debug(city);
 				String emailId2 = rs.getString("email_id");
 				LOGGER.debug(emailId2);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e);
 		}
 		return null;
 	}
@@ -121,7 +120,7 @@ public class Customer implements CustomerInterfaceDAO {
 				LOGGER.debug(cash);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e);
 		}
 		return null;
 	}
@@ -138,31 +137,32 @@ public class Customer implements CustomerInterfaceDAO {
 
 			int rows = ps.executeUpdate();
 			LOGGER.debug("No of rows inserted :" + rows);
-			con.close();
 		}
 
 		catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e);
 		}
 
 	}
 
 	public void update(int userId) {
+		String sql = "update customer_table set active_status='inactive' where user_id=" + userId;
+
 		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement()) {
-			String sql = "update customer_table set active_status='inactive' where user_id=" + userId;
 			LOGGER.debug(sql);
 			int rows = stmt.executeUpdate(sql);
 			LOGGER.debug("No of rows updated :" + rows);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e);
 		}
 
 	}
 
 	public void loginid(String emailId, String password) {
 		String sql = "select email_id,pass_word from customer_table where email_id='" + emailId + "'";
-		try (Connection con = ConnectionUtil.getConnect();Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
+		try (Connection con = ConnectionUtil.getConnect();Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) 
+		{
 			LOGGER.debug(sql);
 			if (rs.next()) {
 				String EmailId = rs.getString("email_id");
@@ -176,8 +176,9 @@ public class Customer implements CustomerInterfaceDAO {
 					LOGGER.debug("Login failed");
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception e)
+		{
+			LOGGER.debug(e);
 		}
 
 	}
