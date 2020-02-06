@@ -162,9 +162,7 @@ public class Customer implements CustomerInterfaceDAO {
 
 	public void loginid(String emailId, String password) {
 		String sql = "select email_id,pass_word from customer_table where email_id='" + emailId + "'";
-		try (Connection con = ConnectionUtil.getConnect();
-				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery(sql)) {
+		try (Connection con = ConnectionUtil.getConnect();Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
 			LOGGER.debug(sql);
 			if (rs.next()) {
 				String EmailId = rs.getString("email_id");
