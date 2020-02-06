@@ -8,6 +8,7 @@ import com.onlineroom.dao.CustomerInterfaceDAO;
 import com.onlineroom.util.ConnectionUtil;
 
 public class Customer implements CustomerInterfaceDAO {
+	private static final String ACTION_1 = "email_id";
 	private static Logger LOGGER = Logger.getInstance();
 	private int userId;
 	private String userName;
@@ -91,7 +92,7 @@ public class Customer implements CustomerInterfaceDAO {
 				LOGGER.debug(username);
 				String city = rs.getString("city");
 				LOGGER.debug(city);
-				String emailId2 = rs.getString("email_id");
+				String emailId2 = rs.getString(ACTION_1);
 				LOGGER.debug(emailId2);
 			}
 		} catch (Exception e) {
@@ -103,16 +104,14 @@ public class Customer implements CustomerInterfaceDAO {
 	public String getUserDetailsByPayment(int userId) {
 		String sql = "select user_name,mob_no,email_id,city,(select payment from room where userid=" + userId
 				+ ") as payment from customer_table where user_id=" + userId;
-		try (Connection con = ConnectionUtil.getConnect();
-				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery(sql)) {
+		try (Connection con = ConnectionUtil.getConnect();Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
 			LOGGER.debug(sql);
 			while (rs.next()) {
 				String userName = rs.getString("user_name");
 				LOGGER.debug(userName);
 				String mobno = rs.getString("mob_no");
 				LOGGER.debug(mobno);
-				String emailId = rs.getString("email_id");
+				String emailId = rs.getString(ACTION_1);
 				LOGGER.debug(emailId);
 				String City = rs.getString("city");
 				LOGGER.debug(City);
@@ -165,7 +164,7 @@ public class Customer implements CustomerInterfaceDAO {
 		{
 			LOGGER.debug(sql);
 			if (rs.next()) {
-				String EmailId = rs.getString("email_id");
+				String EmailId = rs.getString(ACTION_1);
 				// LOGGER.debug(EmailId);
 				String Password = rs.getString("pass_word");
 				// LOGGER.debug(Password);

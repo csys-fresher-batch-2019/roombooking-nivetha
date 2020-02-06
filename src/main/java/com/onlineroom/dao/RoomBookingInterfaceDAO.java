@@ -10,7 +10,7 @@ public interface RoomBookingInterfaceDAO {
 	
     public String getHotelByLocation(String location);
  
-	public String getHotelNameList() throws Exception;
+	public String getHotelNameList();
 
 	public String getBookingDetails(int hotel);
 	

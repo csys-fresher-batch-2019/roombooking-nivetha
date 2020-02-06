@@ -10,6 +10,11 @@ import com.onlineroom.util.ConnectionUtil;
 import com.onlineroom.util.FileUtil;
 
 public class HotelName implements RoomBookingInterfaceDAO {
+	private static final String ACTION_1 = "hotel_name"; 
+	private static final String ACTION_2 = "location";
+	private static final String ACTION_3 = "rating";
+	private static final String ACTION_4 = "status";
+
 	private static Logger LOGGER = Logger.getInstance();
 	private int hotelId;
 	private String hotelName;
@@ -79,13 +84,13 @@ public class HotelName implements RoomBookingInterfaceDAO {
 		{
 			LOGGER.debug(sql);
 			while (rs.next()) {
-				String hotelname = rs.getString("hotel_name");
+				String hotelname = rs.getString( ACTION_1);
 				LOGGER.debug("HotelName=" + hotelname);
-				String location1 = rs.getString("location");
+				String location1 = rs.getString(ACTION_2 );
 				LOGGER.debug("Location=" + location1);
-				float rating1 = rs.getFloat("rating");
+				float rating1 = rs.getFloat(ACTION_3 );
 				LOGGER.debug("Rating=" + rating1);
-				String Status = rs.getString("status");
+				String Status = rs.getString(ACTION_4);
 				LOGGER.debug("Status=" + Status);
 				String HotelId = rs.getString("hotel_id");
 				LOGGER.debug("HotelId=" + HotelId);
@@ -129,13 +134,13 @@ public class HotelName implements RoomBookingInterfaceDAO {
 		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
 			LOGGER.debug(sql);
 			while (rs.next()) {
-				String hotelname1 = rs.getString("hotel_name");
+				String hotelname1 = rs.getString( ACTION_1);
 				LOGGER.debug(hotelname1);
-				String location1 = rs.getString("location");
+				String location1 = rs.getString(ACTION_2 );
 				LOGGER.debug(location1);
-				float rating1 = rs.getFloat("rating");
+				float rating1 = rs.getFloat(ACTION_3 );
 				LOGGER.debug(rating1);
-				String Status = rs.getString("status");
+				String Status = rs.getString(ACTION_4);
 				LOGGER.debug(Status);
 			}
 
@@ -152,13 +157,13 @@ public class HotelName implements RoomBookingInterfaceDAO {
 		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
 			LOGGER.debug(sql);
 			while (rs.next()) {
-				String hotelname2 = rs.getString("hotel_name");
+				String hotelname2 = rs.getString( ACTION_1);
 				LOGGER.debug(hotelname2);
-				String location1 = rs.getString("location");
+				String location1 = rs.getString(ACTION_2 );
 				LOGGER.debug(location1);
-				float rating2 = rs.getFloat("rating");
+				float rating2 = rs.getFloat(ACTION_3 );
 				LOGGER.debug(rating2);
-				String Status = rs.getString("status");
+				String Status = rs.getString(ACTION_4);
 				LOGGER.debug(Status);
 			}
 		} catch (Exception e) {
@@ -173,7 +178,7 @@ public class HotelName implements RoomBookingInterfaceDAO {
 		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
 			LOGGER.debug(sql);
 			while (rs.next()) {
-				String hotelname2 = rs.getString("hotel_name");
+				String hotelname2 = rs.getString( ACTION_1);
 				LOGGER.debug(hotelname2);
 				int Member = rs.getInt("members");
 				LOGGER.debug(Member);
