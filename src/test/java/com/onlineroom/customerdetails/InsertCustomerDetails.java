@@ -11,6 +11,7 @@ public class InsertCustomerDetails {
 
 	public static void main(String[] args) {
 		Customer c=new Customer();
+		@SuppressWarnings("resource")
 		Scanner s=new Scanner(System.in);
 		LOGGER.debug("Enter Userid=");
 		c.setUserId(s.nextInt());

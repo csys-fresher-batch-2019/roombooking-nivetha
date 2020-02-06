@@ -12,6 +12,7 @@ public class InsertFacilityRoom {
 
 	public static void main(String[] args) {
 		RoomType c=new RoomType();
+		@SuppressWarnings("resource")
 		Scanner s=new Scanner(System.in);
 		LOGGER.debug("Enter User=");
 		c.setUser(s.nextInt());

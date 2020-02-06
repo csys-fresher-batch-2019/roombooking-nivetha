@@ -8,9 +8,9 @@ public interface RoomBookingInterfaceDAO {
 	
 	public String getHotelByRating(float rating);
 	
-    public String getHotelByLocation(String Location);
+    public String getHotelByLocation(String location);
  
-	public String getHotelNameList();
+	public String getHotelNameList() throws Exception;
 
 	public String getBookingDetails(int hotel);
 	

@@ -10,6 +10,7 @@ public class UserPayment {
 	private static Logger LOGGER = Logger.getInstance();
 
 	public static void main(String[] args) {
+		@SuppressWarnings("resource")
 		Scanner s=new Scanner(System.in);
 		LOGGER.debug("UserId:");
 		int userId=s.nextInt();

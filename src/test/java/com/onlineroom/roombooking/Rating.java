@@ -10,6 +10,7 @@ public class Rating {
 	private static Logger LOGGER = Logger.getInstance();
 
 	public static void main(String[] args) {
+		@SuppressWarnings("resource")
 		Scanner s=new Scanner(System.in);
 		LOGGER.debug("Enter Rating:");
 		float rating=s.nextFloat();

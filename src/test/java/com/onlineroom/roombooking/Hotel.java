@@ -13,6 +13,7 @@ public class Hotel {
 
 	public static void main(String[] args) {
 		HotelName c=new HotelName();
+		@SuppressWarnings("resource")
 		Scanner s=new Scanner(System.in);
 		LOGGER.debug("Enter HotelId=");
 		c.setHotelId(s.nextInt());

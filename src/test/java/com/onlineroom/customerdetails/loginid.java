@@ -10,15 +10,16 @@ public class loginid {
 	private static Logger LOGGER = Logger.getInstance();
 
 	public static void main(String[] args) {
+		@SuppressWarnings("resource")
 		Scanner s=new Scanner(System.in);
-		LOGGER.debug("UserId:");
+		LOGGER.debug("EmailId:");
 		
-		int userId=s.nextInt();
-		s.nextLine();
+		String emailId=s.nextLine();
+		
 		LOGGER.debug("Enter Password:");
 		String password=s.nextLine();
 		Customer c=new Customer();
-		c.loginid(userId,password);
+		c.loginid(emailId,password);
 	}
 
 }
