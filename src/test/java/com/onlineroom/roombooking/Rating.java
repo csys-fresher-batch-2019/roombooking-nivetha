@@ -1,5 +1,6 @@
 package com.onlineroom.roombooking;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.onlineroom.imp.HotelName;
@@ -15,7 +16,12 @@ public class Rating {
 		LOGGER.debug("Enter Rating:");
 		float rating=s.nextFloat();
 		HotelName c=new HotelName();
-		c.getHotelByRating(rating);
+		List<HotelName> list =c.getHotelByRating(rating);
+		for (HotelName name : list) 
+		{
+			System.out.println(name.toString2());
+		}
+		
 	}
 
 }

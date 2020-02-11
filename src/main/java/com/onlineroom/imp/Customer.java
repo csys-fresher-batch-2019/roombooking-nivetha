@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.onlineroom.dao.CustomerInterfaceDAO;
 import com.onlineroom.util.ConnectionUtil;
 
@@ -79,49 +82,67 @@ public class Customer implements CustomerInterfaceDAO {
 		return "Customer [userId=" + userId + ", userName=" + userName + ", mobNo=" + mobNo + ", city=" + city
 				+ ", emailId=" + emailId + ", password=" + password + ", payment=" + payment + "]";
 	}
+	public String toString1() {
+		return "Customer [userId=" + userId + ", userName=" + userName + ", city=" + city+ ", emailId=" + emailId + "]";
+	}
 
-	public String getUserDetailsByEmail(String emailId) {
+	public List<Customer> getUserDetailsByEmail(String emailId) {
+		List<Customer> list = new ArrayList<Customer>();
 		String sql = "select user_id,user_name,city,email_id from customer_table where email_id='" + emailId + "'";
+		
 		try (Connection con = ConnectionUtil.getConnect();Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) 
 		{
 			LOGGER.debug(sql);
 			while (rs.next()) {
 				int userid = rs.getInt("user_id");
-				LOGGER.debug(userid);
 				String username = rs.getString("user_name");
-				LOGGER.debug(username);
 				String city = rs.getString("city");
-				LOGGER.debug(city);
 				String emailId2 = rs.getString(ACTION_1);
-				LOGGER.debug(emailId2);
+				
+			Customer n=new Customer();
+			n.setUserId(userid);
+			n.setUserName(username);
+			n.setCity(city);
+			n.setEmailId(emailId2);
+			list.add(n);
+					
 			}
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			LOGGER.debug(e);
 		}
-		return null;
+		return list;
+	}
+	public String toString2() {
+		return "Customer [ userName=" + userName + ", mobNo=" + mobNo + ", city=" + city
+				+ ", emailId=" + emailId + ", payment=" + payment + "]";
 	}
 
-	public String getUserDetailsByPayment(int userId) {
+	public List<Customer> getUserDetailsByPayment(int userId) {
+		List<Customer> list = new ArrayList<Customer>();
 		String sql = "select user_name,mob_no,email_id,city,(select payment from room where userid=" + userId
 				+ ") as payment from customer_table where user_id=" + userId;
 		try (Connection con = ConnectionUtil.getConnect();Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
 			LOGGER.debug(sql);
 			while (rs.next()) {
 				String userName = rs.getString("user_name");
-				LOGGER.debug(userName);
 				String mobno = rs.getString("mob_no");
-				LOGGER.debug(mobno);
 				String emailId = rs.getString(ACTION_1);
-				LOGGER.debug(emailId);
 				String City = rs.getString("city");
-				LOGGER.debug(City);
 				String cash = rs.getString("payment");
-				LOGGER.debug(cash);
+				
+				Customer n=new Customer();
+				n.setUserName(userName);
+				n.setMobNo(mobno);
+				n.setEmailId(emailId);
+				n.setCity(City);
+				n.setPayment(cash);
+				list.add(n);
 			}
 		} catch (Exception e) {
 			LOGGER.debug(e);
 		}
-		return null;
+		return list;
 	}
 
 	public void insertcustomerdetalis(Customer c) {
@@ -145,7 +166,7 @@ public class Customer implements CustomerInterfaceDAO {
 	}
 
 	public void update(int userId) {
-		String sql = "update customer_table set active_status='inactive' where user_id=" + userId;
+		String sql = "update room set active_status='inactive', payment='paid' where userid=" + userId;
 
 		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement()) {
 			LOGGER.debug(sql);
@@ -175,6 +196,28 @@ public class Customer implements CustomerInterfaceDAO {
 					LOGGER.debug("Login failed");
 				}
 			}
+		} catch (Exception e)
+		{
+			LOGGER.debug(e);
+		}
+
+	}
+	public void changePassword(String emailId, String pass,String password) {
+		try (Connection con = ConnectionUtil.getConnect();Statement stmt = con.createStatement()) 
+		{
+			String sql = "update customer_table set pass_word='"+password+"' where email_id='"+emailId+"' and pass_word='"+pass+"'";
+	        System.out.println(sql);
+			int row=stmt.executeUpdate(sql);
+	        LOGGER.debug(row);
+	        if(row==1)
+	        {
+	        	LOGGER.debug("Update Success");
+	        }
+	        else
+	        {
+	        	LOGGER.debug("Invalid EmailId/Password");
+	        }
+			
 		} catch (Exception e)
 		{
 			LOGGER.debug(e);

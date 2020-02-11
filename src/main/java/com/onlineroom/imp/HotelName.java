@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.onlineroom.dao.RoomBookingInterfaceDAO;
 import com.onlineroom.util.ConnectionUtil;
@@ -14,110 +16,195 @@ public class HotelName implements RoomBookingInterfaceDAO {
 	private static final String ACTION_2 = "location";
 	private static final String ACTION_3 = "rating";
 	private static final String ACTION_4 = "status";
-
 	private static Logger LOGGER = Logger.getInstance();
 	private int hotelId;
 	private String hotelName;
 	private String location;
 	private float rating;
 	private String status;
-	private String RoomType;
-
+	private String roomType;
+	private String bedType;
+	private int member;
+	private String room;
+	private String inDate;
+	private String outDate;
+	private String payment;
+    private String pic;
+	
+	
+	public static Logger getLOGGER() {
+		return LOGGER;
+	}
+	public static void setLOGGER(Logger lOGGER) {
+		LOGGER = lOGGER;
+	}
 	public int getHotelId() {
 		return hotelId;
 	}
-
 	public void setHotelId(int hotelId) {
 		this.hotelId = hotelId;
 	}
-
 	public String getHotelName() {
 		return hotelName;
 	}
-
 	public void setHotelName(String hotelName) {
 		this.hotelName = hotelName;
 	}
-
 	public String getLocation() {
 		return location;
 	}
-
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
 	public float getRating() {
 		return rating;
 	}
-
 	public void setRating(float rating) {
 		this.rating = rating;
 	}
-
 	public String getStatus() {
 		return status;
 	}
-
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 	public String getRoomType() {
-		return RoomType;
+		return roomType;
 	}
-
 	public void setRoomType(String roomType) {
-		RoomType = roomType;
+		this.roomType = roomType;
 	}
-
+	public String getBedType() {
+		return bedType;
+	}
+	public void setBedType(String bedType) {
+		this.bedType = bedType;
+	}
+	public int getMember() {
+		return member;
+	}
+	public void setMember(int member) {
+		this.member = member;
+	}
+	public String getRoom() {
+		return room;
+	}
+	public void setRoom(String room) {
+		this.room = room;
+	}
+	public String getInDate() {
+		return inDate;
+	}
+	public void setInDate(String inDate) {
+		this.inDate = inDate;
+	}
+	public String getOutDate() {
+		return outDate;
+	}
+	public void setOutDate(String outDate) {
+		this.outDate = outDate;
+	}
+	public String getPayment() {
+		return payment;
+	}
+	public void setPayment(String payment) {
+		this.payment = payment;
+	}
+	public String getPic() {
+		return pic;
+	}
+	public void setPic(String Pic) {
+		this.pic = Pic;
+	}
+	public static String getAction1() {
+		return ACTION_1;
+	}
+	public static String getAction2() {
+		return ACTION_2;
+	}
+	public static String getAction3() {
+		return ACTION_3;
+	}
+	public static String getAction4() {
+		return ACTION_4;
+	}
+	public String toString1() {
+		return "HotelName [ hotelName=" + hotelName +",hotelId="+hotelId+"]";
+	}
+	public String toString2() {
+		return "HotelName [ hotelName=" + hotelName + ", location=" + location + ", rating="
+				+ rating + ", status=" + status + "]";
+	}
+	public String toString3() {
+		return "HotelName [ hotelName=" + hotelName + ", location=" + location + ", rating="
+				+ rating + ", status=" + status + "]";
+	}
+	
 	@Override
 	public String toString() {
 		return "HotelName [hotelId=" + hotelId + ", hotelName=" + hotelName + ", location=" + location + ", rating="
-				+ rating + ", status=" + status + ", RoomType=" + RoomType + "]";
+				+ rating + ", status=" + status + ", roomType=" + roomType + ", bedType=" + bedType + ", member="
+				+ member + ", room=" + room + ", inDate=" + inDate + ", outDate=" + outDate + ", payment=" + payment
+				+ ", pic=" + pic + "]";
 	}
-
-	public String getHotelDetails(String hotelName) 
+	public String toString4() {
+		return "HotelName [ hotelName=" + hotelName + ", location=" + location + ", rating="
+				+ rating + ", status=" + status + ",hotelId="+hotelId+",roomType=" + roomType + ", pic=" + pic + "]";
+	}
+	
+	public List<HotelName> getHotelDetails(String hotelName) 
 	{
+		List<HotelName> list = new ArrayList<HotelName>();
+
 		String sql = "select * from hotel where hotel_name='" + hotelName + "'";
 		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql))
 		{
 			LOGGER.debug(sql);
 			while (rs.next()) {
 				String hotelname = rs.getString( ACTION_1);
-				LOGGER.debug("HotelName=" + hotelname);
 				String location1 = rs.getString(ACTION_2 );
-				LOGGER.debug("Location=" + location1);
 				float rating1 = rs.getFloat(ACTION_3 );
-				LOGGER.debug("Rating=" + rating1);
 				String Status = rs.getString(ACTION_4);
-				LOGGER.debug("Status=" + Status);
-				String HotelId = rs.getString("hotel_id");
-				LOGGER.debug("HotelId=" + HotelId);
+				int hotelId = rs.getInt("hotel_id");
 				String roomtype = rs.getString("RoomType");
-				LOGGER.debug("Roomtype=" + roomtype);
+				String pic=rs.getString("pic");
 				String result = "HotelName=" + hotelname + "\n" + "Location=" + location1 + "\n" + "Rating=" + rating1
-						+ "\n" + "Status=" + Status + "\n" + "HotelId=" + HotelId + "\n" + "Roomtype=" + roomtype;
+						+ "\n" + "Status=" + Status + "\n" + "HotelId=" + hotelId + "\n" + "Roomtype=" + roomtype + "\n" + "Pic="+pic;
 				FileUtil.WriteToFile("HotelNameResult.txt", result);
-				LOGGER.debug("Write Successfully");
+				
+				HotelName n=new HotelName();
+				n.setHotelName(hotelname);
+				n.setLocation(location1);
+				n.setRating(rating1);
+				n.setStatus(Status);
+				n.setHotelId(hotelId);
+				n.setRoomType(roomtype);
+				n.setPic(pic);
+				list.add(n);
+
 			}
 
 		} catch (Exception e) {
 			LOGGER.debug(e);
 		}
 
-		return null;
+		return list;
 	}
 
-	public String getHotelNameList() 
-	{			
-		String sql = "select * from hotel";
+	public List<HotelName> getHotelNameList() 
+	{	
+		List<HotelName> list = new ArrayList<HotelName>();
+		String sql = "select hotel_name,hotel_id from hotel";
 		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
 			LOGGER.debug(sql);
 			while (rs.next())
 			{
-				String hotelname = rs.getString("hotelName");
-				LOGGER.debug("HotelName=" + hotelname);
+				String hotelname = rs.getString("hotel_name");
+				int hotelid=rs.getInt("hotel_id");
+				HotelName n=new HotelName();
+				n.setHotelName(hotelname);
+				n.setHotelId(hotelid);
+				list.add(n);
 			}
 
 		} catch (Exception e)
@@ -125,83 +212,96 @@ public class HotelName implements RoomBookingInterfaceDAO {
 			LOGGER.debug(e);
 		}
 
-		return null;
+		return list;
 	}
 
-	public String getHotelByRating(float rating) 
+	public List<HotelName> getHotelByRating(float rating) 
 	{
+		List<HotelName> list = new ArrayList<HotelName>();
 		String sql = "select hotel_name,rating,location,status from hotel where rating=" + rating + "";
 		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
 			LOGGER.debug(sql);
 			while (rs.next()) {
 				String hotelname1 = rs.getString( ACTION_1);
-				LOGGER.debug(hotelname1);
 				String location1 = rs.getString(ACTION_2 );
-				LOGGER.debug(location1);
 				float rating1 = rs.getFloat(ACTION_3 );
-				LOGGER.debug(rating1);
 				String Status = rs.getString(ACTION_4);
-				LOGGER.debug(Status);
+				
+				HotelName n=new HotelName();
+				n.setHotelName(hotelname1);
+				n.setLocation(location1);
+				n.setRating(rating1);
+				n.setStatus(Status);
+				list.add(n);
 			}
 
 		} catch (Exception e) {
 			LOGGER.debug(e);
 		}
-		return null;
+		return list;
 
 	}
 
-	public String getHotelByLocation(String location)
+	public List<HotelName> getHotelByLocation(String location)
 	{
+		List<HotelName> list = new ArrayList<HotelName>();
 		String sql = "select hotel_name,location,rating,status from hotel  where location='" + location + "'";
 		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
 			LOGGER.debug(sql);
 			while (rs.next()) {
 				String hotelname2 = rs.getString( ACTION_1);
-				LOGGER.debug(hotelname2);
 				String location1 = rs.getString(ACTION_2 );
-				LOGGER.debug(location1);
 				float rating2 = rs.getFloat(ACTION_3 );
-				LOGGER.debug(rating2);
 				String Status = rs.getString(ACTION_4);
-				LOGGER.debug(Status);
+				
+				HotelName n=new HotelName();
+				n.setHotelName(hotelname2);
+				n.setLocation(location1);
+				n.setRating(rating2);
+				n.setStatus(Status);
+				list.add(n);
+
 			}
 		} catch (Exception e) {
 			LOGGER.debug(e);
 		}
-		return null;
+		return list;
 	}
 
-	public String getBookingDetails(int hotel) 
+	public List<HotelName>getBookingDetails(int hotel) 
 	{
-		String sql = "select c.hotel_name,r.us_er,r.members,r.room_type,r.bed_type,r.check_in,r.check_out,r.payment from hotel c  inner join room r on c.hotel_id=r.hotel where hotel_id="+ hotel;
+		List<HotelName> list = new ArrayList<HotelName>();
+
+		String sql = "select c.hotel_name,r.userid,r.members,r.room_type,r.bed_type,r.check_in,r.check_out,r.payment from hotel c  inner join room r on c.hotel_id=r.hotel where hotel_id="+ hotel;
 		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
 			LOGGER.debug(sql);
 			while (rs.next()) {
 				String hotelname2 = rs.getString( ACTION_1);
-				LOGGER.debug(hotelname2);
 				int Member = rs.getInt("members");
-				LOGGER.debug(Member);
 				String Room = rs.getString("room_type");
-				LOGGER.debug(Room);
 				String BedType = rs.getString("bed_type");
-				LOGGER.debug(BedType);
 				String InDate = rs.getString("check_in");
-				LOGGER.debug(InDate);
 				String OutDate = rs.getString("check_out");
-				LOGGER.debug(OutDate);
 				String Payment = rs.getString("payment");
-				LOGGER.debug(Payment);
+				HotelName n=new HotelName();
+				n.setHotelName(hotelname2);
+			    n.setMember(Member);
+			    n.setRoom(Room);
+			    n.setBedType(BedType);
+			    n.setInDate(InDate);
+			    n.setOutDate(OutDate);
+			    n.setPayment(Payment);
+				list.add(n);
 			}
 		} catch (Exception e) {
 			LOGGER.debug(e);
 		}
-		return null;
+		return list;
 	}
 
 	public void hotel(HotelName c) 
 	{
-		String sql = "insert into hotel(hotel_id,hotel_name,location,rating,status,RoomType)values(?,?,?,?,?,?,?)";
+		String sql = "insert into hotel(hotel_id,hotel_name,location,rating,status,RoomType,pic)values(?,?,?,?,?,?,?)";
 		try (Connection con = ConnectionUtil.getConnect();PreparedStatement ps = con.prepareStatement(sql)) 
 		{
 			ps.setInt(1, c.getHotelId());
@@ -210,6 +310,8 @@ public class HotelName implements RoomBookingInterfaceDAO {
 			ps.setFloat(4, c.getRating());
 			ps.setString(5, c.getStatus());
 			ps.setString(6, c.getRoomType());
+			ps.setString(7, c.getPic());
+
 			int rows = ps.executeUpdate();
 			LOGGER.debug("No of rows inserted :" + rows);
 		} catch (Exception e) {

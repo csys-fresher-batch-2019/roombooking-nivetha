@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import com.onlineroom.dao.RoomTypeInterfaceDAO;
 import com.onlineroom.util.ConnectionUtil;
 
@@ -15,9 +18,10 @@ public class RoomType implements RoomTypeInterfaceDAO {
 	private int members;
 	private String roomType;
 	private String bedType;
-	private LocalDate checkIn;
-	private LocalDate checkOut;
+	private Date checkIn;
+	private Date checkOut;
 	private String payment;
+	private String activeStatus;
 
 	public int getUser() {
 		return user;
@@ -59,19 +63,19 @@ public class RoomType implements RoomTypeInterfaceDAO {
 		this.bedType = bedType;
 	}
 
-	public LocalDate getCheckIn() {
+	public Date getCheckIn() {
 		return checkIn;
 	}
 
-	public void setCheckIn(LocalDate checkIn) {
+	public void setCheckIn(Date checkIn) {
 		this.checkIn = checkIn;
 	}
 
-	public LocalDate getCheckOut() {
+	public Date getCheckOut() {
 		return checkOut;
 	}
 
-	public void setCheckOut(LocalDate checkOut) {
+	public void setCheckOut(Date checkOut) {
 		this.checkOut = checkOut;
 	}
 
@@ -83,24 +87,33 @@ public class RoomType implements RoomTypeInterfaceDAO {
 		this.payment = payment;
 	}
 
+	public String getActiveStatus() {
+		return activeStatus;
+	}
+
+	public void setActiveStatus(String activeStatus) {
+		this.activeStatus = activeStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "RoomType [user=" + user + ", hotel=" + hotel + ", members=" + members + ", roomType=" + roomType
 				+ ", bedType=" + bedType + ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", payment=" + payment
-				+ "]";
+				+ ", activeStatus=" + activeStatus + "]";
 	}
 
 	public void insertfacilityroom(RoomType c) {
-		String sql = "insert into room(hotel,us_er,members,room_type,bed_type,check_in,check_out,payment)values(?,?,?,?,?,?,?,?)";
+		String sql = "insert into room(hotel,us_er,members,room_type,bed_type,check_in,check_out,payment,active_status)values(?,?,?,?,?,?,?,?,?)";
 		try (Connection con = ConnectionUtil.getConnect(); PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, c.getHotel());
 			ps.setInt(2, c.getUser());
 			ps.setInt(3, c.getMembers());
 			ps.setString(4, c.getRoomType());
 			ps.setString(5, c.getBedType());
-			ps.setDate(6, java.sql.Date.valueOf(c.getCheckIn()));
-			ps.setDate(7, java.sql.Date.valueOf(c.getCheckOut()));
+			ps.setDate(6, (java.sql.Date)c.getCheckIn());
+			ps.setDate(7, (java.sql.Date)c.getCheckOut());
 			ps.setString(8, c.getPayment());
+	        ps.setString(9, c.getActiveStatus());
 			int rows = ps.executeUpdate();
 			LOGGER.debug("No of rows inserted :" + rows);
 		} catch (Exception e) {
@@ -120,23 +133,31 @@ public class RoomType implements RoomTypeInterfaceDAO {
 		}
 
 	}
+	public String toString1() {
+		return "RoomType [ user="+user+", checkIn=" + checkIn + ", checkOut=" + checkOut + "]";
+	}
 
-	public String getUserCheckInOut(int userid) {
+	public List<RoomType> getUserCheckInOut(int userid) {
+		List<RoomType> list = new ArrayList<RoomType>();
+
 		String sql = "select userid,check_in,check_out from room where userid=" + userid;
 		try (Connection con = ConnectionUtil.getConnect();Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
 			LOGGER.debug(sql);
 			while (rs.next()) {
-				String Userid = rs.getString("userid");
-				LOGGER.debug("Id=" + Userid);
-				String CheckIn = rs.getString("check_in");
-				LOGGER.debug("In=" + CheckIn);
-				String CheckOut = rs.getString("check_out");
-				LOGGER.debug("Out=" + CheckOut);
+				@SuppressWarnings("unused")
+				String User = rs.getString("userid");
+				Date checkIn = rs.getDate("check_in");
+				Date checkOut = rs.getDate("check_out");
+				RoomType n=new RoomType();
+				n.setUser(userid);
+				n.setCheckIn(checkIn);
+				n.setCheckOut(checkOut);
+				list.add(n);
 			}
 		} catch (Exception e) {
 			LOGGER.debug(e);
 		}
-		return null;
+		return list;
 	}
 
 }

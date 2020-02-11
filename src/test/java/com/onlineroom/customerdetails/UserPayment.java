@@ -1,5 +1,6 @@
-package com.onlineroom.roombooking;
+package com.onlineroom.customerdetails;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.onlineroom.imp.Customer;
@@ -15,7 +16,12 @@ public class UserPayment {
 		LOGGER.debug("UserId:");
 		int userId=s.nextInt();
 		Customer p=new Customer();
-		p. getUserDetailsByPayment(userId);
+		List<Customer> list = p. getUserDetailsByPayment(userId);
+		for (Customer customer  : list) 
+		{
+			System.out.println(customer.toString2());
+		}
+		
 		
 	}
 }

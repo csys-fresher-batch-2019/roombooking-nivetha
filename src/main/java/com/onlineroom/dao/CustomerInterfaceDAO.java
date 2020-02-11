@@ -1,17 +1,22 @@
 package com.onlineroom.dao;
 
+import java.util.List;
+
 import com.onlineroom.imp.Customer;
 
 public interface CustomerInterfaceDAO {
 	
-	public String getUserDetailsByEmail(String emailId);
+	public List<Customer> getUserDetailsByEmail(String emailId);
 	
-	public String getUserDetailsByPayment(int userId);
+	public List<Customer> getUserDetailsByPayment(int userId);
 	
 	public void insertcustomerdetalis(Customer c);
 	
 	public void loginid(String emailId,String password);
 	
 	public void update(int userId);
+	
+	public void changePassword(String emailId, String pass,String password);
+
 
 }

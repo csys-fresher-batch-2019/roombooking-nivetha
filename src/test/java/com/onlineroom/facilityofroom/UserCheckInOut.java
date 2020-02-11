@@ -1,5 +1,6 @@
 package com.onlineroom.facilityofroom;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.onlineroom.imp.Logger;
@@ -15,7 +16,12 @@ public class UserCheckInOut {
 		LOGGER.debug("Enter userid:");
 		int userid=s.nextInt();
 		RoomType c=new RoomType();
-		c.getUserCheckInOut(userid);
+		List<RoomType> list =c.getUserCheckInOut(userid);
+		for (RoomType name : list) 
+		{
+			System.out.println(name.toString1());
+		}
+		
 		
 	}
 

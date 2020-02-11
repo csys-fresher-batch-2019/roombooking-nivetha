@@ -1,5 +1,6 @@
 package com.onlineroom.roombooking;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.onlineroom.imp.HotelName;
@@ -17,7 +18,13 @@ public class BookingDetails{
   		LOGGER.debug("Enter Hotelid:");
   		int hotelid=s.nextInt();
 	    HotelName c=new HotelName();
-		c.getBookingDetails(hotelid);
+	    List<HotelName> list =c.getBookingDetails(hotelid);
+		for (HotelName name : list) 
+		{
+			System.out.println(name.toString());
+		}
+		
+		
 	}
 
 }

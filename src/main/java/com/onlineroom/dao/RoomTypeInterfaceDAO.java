@@ -1,10 +1,12 @@
 package com.onlineroom.dao;
 
+import java.util.List;
+
 import com.onlineroom.imp.RoomType;
 
 public interface RoomTypeInterfaceDAO {
 	
-	public String getUserCheckInOut(int userid);
+	public List<RoomType> getUserCheckInOut(int userid);
 	
 	public void insertfacilityroom(RoomType c);
 	

@@ -7,6 +7,7 @@ import com.onlineroom.imp.Logger;
 
 
 public class update {
+	
 	private static Logger LOGGER = Logger.getInstance();
 
 
