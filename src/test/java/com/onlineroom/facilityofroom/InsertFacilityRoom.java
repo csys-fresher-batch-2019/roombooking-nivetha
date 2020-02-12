@@ -1,8 +1,6 @@
 package com.onlineroom.facilityofroom;
 
-import java.time.LocalDate;
 import java.util.Scanner;
-
 import com.onlineroom.imp.Logger;
 import com.onlineroom.imp.RoomType;
 
@@ -27,10 +25,10 @@ public class InsertFacilityRoom {
 		c.setBedType(s.next());
 		
 		LOGGER.debug("Enter CheckIn=");
-		c.setCheckIn(LocalDate.parse(s.next()));
+		c.setCheckIn(java.sql.Date.valueOf(s.nextLine()));
 		
 		LOGGER.debug("Enter CheckOut=");
-		c.setCheckOut(LocalDate.parse(s.next()));
+		c.setCheckOut(java.sql.Date.valueOf(s.nextLine()));
 		
 		LOGGER.debug("Enter Payment=");
 		c.setPayment(s.next());
