@@ -13,10 +13,8 @@ public class HotelDetails {
 	public static void main(String[] args) {
 		@SuppressWarnings("resource")
 		Scanner s=new Scanner(System.in);
-		LOGGER.debug("Enter HotelName:");
-		String hotelName=s.nextLine();
 		HotelName c=new HotelName();
-		List<HotelName> list =c.getHotelDetails(hotelName);
+		List<HotelName> list =c.getHotelDetails();
 		for (HotelName name : list) 
 		{
 			System.out.println(name.toString4());
