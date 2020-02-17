@@ -8,6 +8,8 @@ public interface RoomBookingInterfaceDAO {
 	
 	public List<HotelName> getHotelDetails();
 	
+	public List<HotelName> getHotelDetails1(String hotelName); 
+
 	public List<HotelName> getHotelByRating(float rating);
 
 	public List<HotelName> getHotelByLocation(String location);

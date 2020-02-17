@@ -12,26 +12,27 @@ public class InsertFacilityRoom {
 		RoomType c=new RoomType();
 		@SuppressWarnings("resource")
 		Scanner s=new Scanner(System.in);
-		LOGGER.debug("Enter User=");
+		LOGGER.debug("Enter UserId=");
 		c.setUser(s.nextInt());
-		
+		s.nextLine();
+		LOGGER.debug("Enter HotelId");
+		c.setHotel(s.nextInt());
+		s.nextLine();
 		LOGGER.debug("Enter Members=");
 		c.setMembers(s.nextInt());
-		
+		s.nextLine();
 		LOGGER.debug("Enter RoomType =");
-		c.setRoomType(s.next());
-		
+		c.setRoomType(s.nextLine());
+		s.nextLine();
 		LOGGER.debug("Enter BedType=");
-		c.setBedType(s.next());
-		
+		c.setBedType(s.nextLine());
+		s.nextLine();
 		LOGGER.debug("Enter CheckIn=");
 		c.setCheckIn(java.sql.Date.valueOf(s.nextLine()));
-		
+		s.nextLine();
 		LOGGER.debug("Enter CheckOut=");
 		c.setCheckOut(java.sql.Date.valueOf(s.nextLine()));
-		
-		LOGGER.debug("Enter Payment=");
-		c.setPayment(s.next());
+		s.nextLine();
 		
 		c.insertfacilityroom(c);
 	}

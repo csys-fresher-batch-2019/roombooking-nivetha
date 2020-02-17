@@ -179,12 +179,14 @@ public class Customer implements CustomerInterfaceDAO {
 
 	}
 
-	public void loginid(String emailId, String password) {
+	public String loginid(String emailId, String password) {
 		String sql = "select email_id,pass_word from customer_table where email_id='" + emailId + "'";
 		try (Connection con = ConnectionUtil.getConnect();Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) 
 		{
 			LOGGER.debug(sql);
+			String st=null;
 			if (rs.next()) {
+				st="success";
 				String EmailId = rs.getString(ACTION_1);
 				// LOGGER.debug(EmailId);
 				String Password = rs.getString("pass_word");
@@ -192,14 +194,18 @@ public class Customer implements CustomerInterfaceDAO {
 				if (emailId.equals(EmailId) && password.equals(Password)) {
 
 					LOGGER.debug("Login Successfull");
+				return st;
 				} else {
+					st="failure";
 					LOGGER.debug("Login failed");
+					return st;
 				}
 			}
 		} catch (Exception e)
 		{
 			LOGGER.debug(e);
 		}
+		return null;
 
 	}
 	public void changePassword(String emailId, String pass,String password) {

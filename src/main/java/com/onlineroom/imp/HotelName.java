@@ -151,6 +151,10 @@ public class HotelName implements RoomBookingInterfaceDAO {
 		return "HotelName [ hotelName=" + hotelName + ", location=" + location + ", rating="
 				+ rating + ", status=" + status + ",hotelId="+hotelId+",roomType=" + roomType + ", pic=" + pic + "]";
 	}
+	public String toString5() {
+		return "HotelName [ hotelName=" + hotelName + ", location=" + location + ", rating="
+				+ rating + ", status=" + status + ",hotelId="+hotelId+",roomType=" + roomType + "]";
+	}
 	
 	public List<HotelName> getHotelDetails() 
 	{
@@ -190,6 +194,43 @@ public class HotelName implements RoomBookingInterfaceDAO {
 
 		return list;
 	}
+	public List<HotelName> getHotelDetails1(String hotelName) 
+	{
+		List<HotelName> list = new ArrayList<HotelName>();
+
+		String sql = "select hotel_id,hotel_name,location,rating,status,roomtype from hotel where hotel_name='"+hotelName+"'";
+		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql))
+		{
+			LOGGER.debug(sql);
+			while (rs.next()) {
+				String hotelname = rs.getString( ACTION_1);
+				String location1 = rs.getString(ACTION_2 );
+				float rating1 = rs.getFloat(ACTION_3 );
+				String Status = rs.getString(ACTION_4);
+				int hotelId = rs.getInt("hotel_id");
+				String roomtype = rs.getString("RoomType");
+				
+				HotelName n=new HotelName();
+				n.setHotelName(hotelname);
+				n.setLocation(location1);
+				n.setRating(rating1);
+				n.setStatus(Status);
+				n.setHotelId(hotelId);
+				n.setRoomType(roomtype);
+				list.add(n);
+
+			}
+
+		} catch (Exception e) {
+			LOGGER.debug(e);
+		}
+
+		return list;
+	}
+
+	
+	
+	
 
 	public List<HotelName> getHotelByRating(float rating) 
 	{

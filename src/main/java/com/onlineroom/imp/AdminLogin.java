@@ -27,13 +27,15 @@ public class AdminLogin {
 		this.passWord = password;
 	}
 
-	public void login(String adminName, String passWord) {
-		String sql = "select adminname,password from login where adminname='" + adminName + "' and password='"+ passWord + "'";
+	public String login(String adminName, String passWord) {
+		String sql = "select username,password from login where username='" + adminName + "' and password='"+ passWord + "'";
 		try (Connection con = ConnectionUtil.getConnect();Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql))
 		{
 			LOGGER.debug(sql);
+			String st=null;
 			if (rs.next()) {
-				String adminName1 = rs.getString("adminname");
+				st="success";
+				String adminName1 = rs.getString("username");
 				//LOGGER.debug(adminName1);
 				String Password = rs.getString("password");
 				//LOGGER.debug(Password);
@@ -41,17 +43,21 @@ public class AdminLogin {
 				{
 
 					LOGGER.debug("Login Successfull");
+					return st;
 				} 
 				
 			}
 			else 
 			{
+				st="failed";
 				LOGGER.debug("Login failed");
+				return st;
 			}
 		} 
 		catch (Exception e) 
 		{
 			LOGGER.debug(e);
 		}
+		return null;
 	}
 }

@@ -1,11 +1,11 @@
 package com.onlineroom.imp;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.onlineroom.dao.RoomTypeInterfaceDAO;
@@ -18,7 +18,7 @@ public class RoomType implements RoomTypeInterfaceDAO {
 	private int members;
 	private String roomType;
 	private String bedType;
-	private Date checkIn;
+	private java.sql.Date checkIn;
 	private Date checkOut;
 	private String payment;
 	private String activeStatus;
@@ -103,17 +103,16 @@ public class RoomType implements RoomTypeInterfaceDAO {
 	}
 
 	public void insertfacilityroom(RoomType c) {
-		String sql = "insert into room(hotel,us_er,members,room_type,bed_type,check_in,check_out,payment,active_status)values(?,?,?,?,?,?,?,?,?)";
+		String sql = "insert into room(hotel,user,members,room_type,bed_type,check_in,check_out)values(?,?,?,?,?,?,?)";
 		try (Connection con = ConnectionUtil.getConnect(); PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, c.getHotel());
 			ps.setInt(2, c.getUser());
 			ps.setInt(3, c.getMembers());
 			ps.setString(4, c.getRoomType());
 			ps.setString(5, c.getBedType());
-			ps.setDate(6, (java.sql.Date)c.getCheckIn());
-			ps.setDate(7, (java.sql.Date)c.getCheckOut());
-			ps.setString(8, c.getPayment());
-	        ps.setString(9, c.getActiveStatus());
+			
+			ps.setDate(6, (java.sql.Date)c.getCheckIn() );
+			ps.setDate(7, (java.sql.Date) c.getCheckOut());
 			int rows = ps.executeUpdate();
 			LOGGER.debug("No of rows inserted :" + rows);
 		} catch (Exception e) {

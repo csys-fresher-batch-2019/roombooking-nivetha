@@ -12,7 +12,7 @@ public interface CustomerInterfaceDAO {
 	
 	public void insertcustomerdetalis(Customer c);
 	
-	public void loginid(String emailId,String password);
+	public String loginid(String emailId,String password);
 	
 	public void update(int userId);
 	
