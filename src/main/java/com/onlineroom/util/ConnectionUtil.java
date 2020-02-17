@@ -3,6 +3,9 @@ package com.onlineroom.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.sqlobject.SqlObjectPlugin;
+
 public class ConnectionUtil {
 
 		public static  Connection getConnect()throws Exception {
@@ -12,6 +15,12 @@ public class ConnectionUtil {
 			//LOGGER.debug(con);
 			//Statement stmt=con.createStatement();
 			return con;
+		}
+		public static Jdbi getJdbi() throws Exception {
+			Connection connection = ConnectionUtil.getConnect();
+			Jdbi jdbi = Jdbi.create(connection);
+			jdbi.installPlugin(new SqlObjectPlugin());
+			return jdbi;
 		}
 
 
