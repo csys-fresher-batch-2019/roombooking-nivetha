@@ -1,11 +1,9 @@
 package com.onlineroom.customerdetails;
 
 import java.util.Scanner;
-import org.jdbi.v3.core.Jdbi;
 import com.onlineroom.dao.CustomerInterfaceDAO;
 import com.onlineroom.imp.Customer;
 import com.onlineroom.imp.Logger;
-import com.onlineroom.util.ConnectionUtil;
 
 public class TestAdd  {
 	private static Logger LOGGER = Logger.getInstance();
@@ -13,8 +11,7 @@ public class TestAdd  {
 	
 	//jdbi.onDemand(CustomerInterfaceDAO.class);
 	public static void main(String[] args) throws Exception {
-	     @SuppressWarnings("unused")
-		Jdbi jdbi=ConnectionUtil.getJdbi();
+	    
 		 @SuppressWarnings("unused")
 		CustomerInterfaceDAO nn=new Customer();
 		Customer c=new Customer();
