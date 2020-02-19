@@ -146,14 +146,13 @@ public class Customer implements CustomerInterfaceDAO {
 	}
 
 	public void insertcustomerdetalis(Customer c) {
-		String sql = "insert into customer_table(user_id,user_name,mob_no,city,email_id,pass_word)values(?,?,?,?,?,?)";
+		String sql = "insert into customer_table(user_id,user_name,mob_no,city,email_id,pass_word)values(user_id_sq.nextval,?,?,?,?,?)";
 		try (Connection con = ConnectionUtil.getConnect(); PreparedStatement ps = con.prepareStatement(sql)) {
-			ps.setInt(1, c.getUserId());
-			ps.setString(2, c.getUserName());
-			ps.setString(3, c.getMobNo());
-			ps.setString(4, c.getCity());
-			ps.setString(5, c.getEmailId());
-			ps.setString(6, c.getPassword());
+			ps.setString(1, c.getUserName());
+			ps.setString(2, c.getMobNo());
+			ps.setString(3, c.getCity());
+			ps.setString(4, c.getEmailId());
+			ps.setString(5, c.getPassword());
 
 			int rows = ps.executeUpdate();
 			LOGGER.debug("No of rows inserted :" + rows);
@@ -228,6 +227,33 @@ public class Customer implements CustomerInterfaceDAO {
 		{
 			LOGGER.debug(e);
 		}
-
+		return;
 	}
-}
+
+
+	public int getUserId(String emailid, String password)  {
+		String sql="select user_id from customer_table where email_id=? and pass_word=?";
+		System.out.println(sql);
+		int v= 0;
+		try(Connection con = ConnectionUtil.getConnect();PreparedStatement pst = con.prepareStatement(sql);){
+		      pst.setString(1, emailid);
+		      pst.setString(2, password);
+		try(ResultSet row =pst. executeQuery();)
+		{
+			
+			
+		                if(row.next()) {
+		               	v= row.getInt("user_Id");
+		               	
+		                }
+		  }
+		}
+		catch(Exception e)
+		{
+
+		        LOGGER.error(e);
+		        }
+		   return v;
+	}
+	}
+

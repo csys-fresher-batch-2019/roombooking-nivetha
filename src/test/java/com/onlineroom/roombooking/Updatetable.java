@@ -14,8 +14,11 @@ public class Updatetable {
 		Scanner s=new Scanner(System.in);
 		LOGGER.debug("Enter id:");
 		int hotelId=s.nextInt();
+		s.nextLine();
+		LOGGER.debug("Enter status");
+		String status=s.nextLine();
 				HotelName c=new HotelName();
-				c.updatetable(hotelId);
+				c.updatetable(hotelId, status);
 
 }
 }

@@ -198,7 +198,7 @@ public class HotelName implements RoomBookingInterfaceDAO {
 	{
 		List<HotelName> list = new ArrayList<HotelName>();
 
-		String sql = "select hotel_id,hotel_name,location,rating,status,roomtype from hotel where hotel_name='"+hotelName+"'";
+		String sql = "select hotel_id,hotel_name,location,rating,status,roomtype from hotel where lower(hotel_name)=lower('"+hotelName+"')";
 		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql))
 		{
 			LOGGER.debug(sql);
@@ -263,7 +263,7 @@ public class HotelName implements RoomBookingInterfaceDAO {
 	public List<HotelName> getHotelByLocation(String location)
 	{
 		List<HotelName> list = new ArrayList<HotelName>();
-		String sql = "select hotel_name,location,rating,status from hotel  where location='" + location + "'";
+		String sql = "select hotel_name,location,rating,status from hotel  where lower(location)=lower('" + location + "')";
 		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
 			LOGGER.debug(sql);
 			while (rs.next()) {
@@ -338,9 +338,9 @@ public class HotelName implements RoomBookingInterfaceDAO {
 
 	}
 
-	public void updatetable(int hotelId) {
+	public void updatetable(int hotelId,String status) {
 		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement()) {
-			String sql = "update hotel set status='not avaliable' where hotel_id=" + hotelId;
+			String sql = "update hotel set lower(status)=lower('"+status+"') where hotel_id=" + hotelId;
 			LOGGER.debug(sql);
 			int rows = stmt.executeUpdate(sql);
 			LOGGER.debug("No of rows updated :" + rows);

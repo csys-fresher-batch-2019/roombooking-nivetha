@@ -18,6 +18,7 @@ public class loginid {
 		String password=s.nextLine();
 		Customer c=new Customer();
 		c.loginid(emailId,password);
+
 	}
 
 }

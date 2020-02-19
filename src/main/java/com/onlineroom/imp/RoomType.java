@@ -103,7 +103,7 @@ public class RoomType implements RoomTypeInterfaceDAO {
 	}
 
 	public void insertfacilityroom(RoomType c) {
-		String sql = "insert into room(hotel,user,members,room_type,bed_type,check_in,check_out)values(?,?,?,?,?,?,?)";
+		String sql = "insert into room(hotel,userid,members,room_type,bed_type,check_in,check_out)values(?,?,?,?,?,?,?)";
 		try (Connection con = ConnectionUtil.getConnect(); PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, c.getHotel());
 			ps.setInt(2, c.getUser());

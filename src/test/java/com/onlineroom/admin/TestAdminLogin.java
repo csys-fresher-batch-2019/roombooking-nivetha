@@ -15,7 +15,9 @@ public class TestAdminLogin {
 		String password=s.nextLine();
 		AdminLogin c=new AdminLogin();
 		c.login(adminName,password);
+		
 
 	}
 
+	
 }
