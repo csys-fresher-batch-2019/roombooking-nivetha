@@ -120,7 +120,6 @@ public class RoomType implements RoomTypeInterfaceDAO {
 		}
 
 	}
-
 	public void delete(String payment) {
 		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement()) {
 			String sql = "delete from room where payment='" + payment + "'";
@@ -144,13 +143,47 @@ public class RoomType implements RoomTypeInterfaceDAO {
 			LOGGER.debug(sql);
 			while (rs.next()) {
 				@SuppressWarnings("unused")
-				String User = rs.getString("userid");
+			     int user = rs.getInt("userid");
 				Date checkIn = rs.getDate("check_in");
 				Date checkOut = rs.getDate("check_out");
 				RoomType n=new RoomType();
 				n.setUser(userid);
 				n.setCheckIn(checkIn);
 				n.setCheckOut(checkOut);
+				list.add(n);
+			}
+		} catch (Exception e) {
+			LOGGER.debug(e);
+		}
+		return list;
+	}
+	public List<RoomType> getUserbookeddetails(int userid){
+	List<RoomType> list = new ArrayList<RoomType>();
+
+	   String sql="select * from room where userid="+userid;
+		try (Connection con = ConnectionUtil.getConnect();Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
+			LOGGER.debug(sql);
+			while (rs.next()) {
+				@SuppressWarnings("unused")
+				int user = rs.getInt("userid");
+				int hotelid=rs.getInt("hotel");
+				int member=rs.getInt("members");
+				String roomType=rs.getString("room_type");
+				String bedType=rs.getString("bed_type");
+				Date checkIn = rs.getDate("check_in");
+				Date checkOut = rs.getDate("check_out");
+				String payment=rs.getString("payment");
+				String activeStatus=rs.getString("active_status");
+				RoomType n=new RoomType();
+				n.setUser(userid);
+				n.setHotel(hotelid);
+				n.setMembers(member);
+				n.setRoomType(roomType);
+				n.setBedType(bedType);
+				n.setCheckIn(checkIn);
+				n.setCheckOut(checkOut);
+				n.setPayment(payment);
+				n.setActiveStatus(activeStatus);
 				list.add(n);
 			}
 		} catch (Exception e) {

@@ -19,7 +19,7 @@ public class Location {
 		List<HotelName> list =	c.getHotelByLocation(location);
 		for (HotelName name : list) 
 		{
-			System.out.println(name.toString3());
+			System.out.println(name.toString());
 		}
 	
 	}

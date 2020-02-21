@@ -19,7 +19,7 @@ public class Rating {
 		List<HotelName> list =c.getHotelByRating(rating);
 		for (HotelName name : list) 
 		{
-			System.out.println(name.toString2());
+			System.out.println(name.toString());
 		}
 		
 	}

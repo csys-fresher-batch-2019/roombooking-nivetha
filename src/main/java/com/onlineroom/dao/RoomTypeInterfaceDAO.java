@@ -11,5 +11,7 @@ public interface RoomTypeInterfaceDAO {
 	public void insertfacilityroom(RoomType c);
 	
 	public void delete(String payment);
+	
+	public List<RoomType> getUserbookeddetails(int userid);
 
 }
