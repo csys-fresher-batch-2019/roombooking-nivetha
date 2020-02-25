@@ -146,7 +146,7 @@ public class Customer implements CustomerInterfaceDAO {
 	}
 
 	public void insertcustomerdetalis(Customer c) {
-		String sql = "insert into customer_table(user_id,user_name,mob_no,city,email_id,pass_word)values(user_id_sq.nextval,?,?,?,?,?)";
+		String sql = "insert into customer_table(user_id,user_name,mob_no,city,email_id,pass_word)values(u_id_seq.nextval,?,?,?,?,?)";
 		try (Connection con = ConnectionUtil.getConnect(); PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setString(1, c.getUserName());
 			ps.setString(2, c.getMobNo());

@@ -18,7 +18,7 @@ public class RoomType implements RoomTypeInterfaceDAO {
 	private int members;
 	private String roomType;
 	private String bedType;
-	private java.sql.Date checkIn;
+	private Date checkIn;
 	private Date checkOut;
 	private String payment;
 	private String activeStatus;
