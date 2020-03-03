@@ -14,3 +14,4 @@ public interface RoomTypeDAO {
 	public List<RoomType> getUserbookeddetails(int userid);
 
 }
+//
