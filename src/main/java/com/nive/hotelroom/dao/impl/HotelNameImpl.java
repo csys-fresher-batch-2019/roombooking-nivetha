@@ -1,4 +1,4 @@
-package com.nive.hotelroom.dao.impl;
+ package com.nive.hotelroom.dao.impl;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -42,16 +42,16 @@ public class HotelNameImpl implements HotelDAO {
 				n.setRoomType(roomtype);
 				n.setPic(pic);
 				list.add(n);
-
 			}
 
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			LOGGER.debug(e);
 		}
 
 		return list;
 	}
-	
 	public List<HotelName> getHotelDetails2() 
 	{
 		List<HotelName> list = new ArrayList<HotelName>();
@@ -77,7 +77,6 @@ public class HotelNameImpl implements HotelDAO {
 				n.setRoomType(roomtype);
 	
 				list.add(n);
-
 			}
 
 		} catch (Exception e) {
@@ -86,7 +85,7 @@ public class HotelNameImpl implements HotelDAO {
 
 		return list;
 	}
-
+	
 	public List<HotelName> getHotelDetails1(String hotelName) 
 	{
 		List<HotelName> list = new ArrayList<HotelName>();

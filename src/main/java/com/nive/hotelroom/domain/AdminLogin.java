@@ -20,4 +20,9 @@ public class AdminLogin {
 		this.passWord = password;
 	}
 
+	@Override
+	public String toString() {
+		return "AdminLogin [adminName=" + adminName + ", passWord=" + passWord + "]";
+	}
+
 }
