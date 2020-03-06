@@ -3,7 +3,7 @@ addons:
   sonarcloud:
     organization: "csys-fresher-batch-2019"
     token:
-      secure: "d3fa1228f18474b720bd895afce2fc31b26f5637"
+      secure: "38e86da5cda94dea497c2f0c44e35d1d1396fd5c"
 
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
