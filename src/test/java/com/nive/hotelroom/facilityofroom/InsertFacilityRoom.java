@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.nive.hotelroom.dao.RoomTypeDAO;
 import com.nive.hotelroom.domain.RoomType;
+import com.nive.hotelroom.exception.DBException;
 import com.nive.hotelroom.factory.DAOFactory;
 import com.nive.hotelroom.util.Logger;
 
@@ -11,9 +12,8 @@ import com.nive.hotelroom.util.Logger;
 public class InsertFacilityRoom {
 	private static Logger LOGGER = Logger.getInstance();
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws DBException {
 		RoomType c=new RoomType();
-		@SuppressWarnings("resource")
 		Scanner s=new Scanner(System.in);
 		LOGGER.debug("Enter UserId=");
 		c.setUser(s.nextInt());

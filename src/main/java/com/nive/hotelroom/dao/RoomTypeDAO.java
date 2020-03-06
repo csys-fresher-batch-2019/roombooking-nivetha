@@ -2,16 +2,17 @@ package com.nive.hotelroom.dao;
 
 import java.util.List;
 import com.nive.hotelroom.domain.RoomType;
+import com.nive.hotelroom.exception.DBException;
 
 public interface RoomTypeDAO {
 	
-	public List<RoomType> getUserCheckInOut(int userid);
+	public List<RoomType> getUserCheckInOut(RoomType al)throws DBException;
 	
-	public void insertfacilityroom(RoomType c);
+	public void insertfacilityroom(RoomType c)throws DBException;
 	
-	public void delete(String payment);
+	public void delete(RoomType al)throws DBException;
 	
-	public List<RoomType> getUserbookeddetails(int userid);
+	public List<RoomType> getUserbookeddetails(RoomType al)throws DBException;
 
 }
 //

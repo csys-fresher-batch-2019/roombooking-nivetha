@@ -3,11 +3,11 @@ package com.nive.hotelroom.dao.impl;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.nive.hotelroom.domain.CustomerDetails;
+import com.nive.hotelroom.exception.DBException;
+import com.nive.hotelroom.exception.ErrorConstant;
 import com.nive.hotelroom.dao.CustomerDAO;
 import com.nive.hotelroom.util.ConnectionUtil;
 import com.nive.hotelroom.util.Logger;
@@ -16,13 +16,14 @@ public class CustomerImpl implements CustomerDAO {
 	private static final String ACTION_1 = "email_id";
 	private static Logger LOGGER = Logger.getInstance();
 	
-	public List<CustomerDetails> getUserDetailsByEmail(String emailId) {
+	public List<CustomerDetails> getUserDetailsByEmail(CustomerDetails al)throws DBException {
 		List<CustomerDetails> list = new ArrayList<CustomerDetails>();
-		String sql = "select user_id,user_name,city,email_id from customer_table where email_id='" + emailId + "'";
-		
-		try (Connection con = ConnectionUtil.getConnect();Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) 
+		String sql = "select user_id,user_name,city,email_id from customer_table where email_id=?";
+		try (Connection con = ConnectionUtil.getConnect();PreparedStatement pst=con.prepareStatement(sql)) 
 		{
 			LOGGER.debug(sql);
+			pst.setString(1,al.getEmailId());
+			ResultSet rs=pst.executeQuery();
 			while (rs.next()) {
 				int userid = rs.getInt("user_id");
 				String username = rs.getString("user_name");
@@ -40,16 +41,19 @@ public class CustomerImpl implements CustomerDAO {
 		} catch (Exception e)
 		{
 			LOGGER.debug(e);
+			throw new DBException(ErrorConstant.INVALID_SELECT);
 		}
 		return list;
 	}
 	
-	public List<CustomerDetails> getUserDetailsByPayment(int userId) {
+	public List<CustomerDetails> getUserDetailsByPayment(CustomerDetails al)throws DBException {
 		List<CustomerDetails> list = new ArrayList<CustomerDetails>();
-		String sql = "select user_name,mob_no,email_id,city,(select payment from room where userid=" + userId
-				+ ") as payment from customer_table where user_id=" + userId;
-		try (Connection con = ConnectionUtil.getConnect();Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
+		String sql = "select user_name,mob_no,email_id,city,(select payment from room where userid=?) as payment from customer_table where user_id=?";
+		try (Connection con = ConnectionUtil.getConnect();PreparedStatement pst=con.prepareStatement(sql)) {
 			LOGGER.debug(sql);
+			pst.setInt(1, al.getUserId());
+			pst.setInt(2, al.getUserId());
+			ResultSet rs = pst.executeQuery(sql);
 			while (rs.next()) {
 				String userName = rs.getString("user_name");
 				String mobno = rs.getString("mob_no");
@@ -67,11 +71,12 @@ public class CustomerImpl implements CustomerDAO {
 			}
 		} catch (Exception e) {
 			LOGGER.debug(e);
+			throw new DBException(ErrorConstant.INVALID_SELECT);
 		}
 		return list;
 	}
 
-	public void insertcustomerdetalis(CustomerDetails c) {
+	public void insertcustomerdetalis(CustomerDetails c)throws DBException {
 		String sql = "insert into customer_table(user_id,user_name,mob_no,city,email_id,pass_word)values(u_id_seq.nextval,?,?,?,?,?)";
 		try (Connection con = ConnectionUtil.getConnect(); PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setString(1, c.getUserName());
@@ -79,36 +84,42 @@ public class CustomerImpl implements CustomerDAO {
 			ps.setString(3, c.getCity());
 			ps.setString(4, c.getEmailId());
 			ps.setString(5, c.getPassword());
-
 			int rows = ps.executeUpdate();
 			LOGGER.debug("No of rows inserted :" + rows);
 		}
 
 		catch (Exception e) {
 			LOGGER.debug(e);
+			throw new DBException(ErrorConstant. INVALID_ADD);
+
 		}
 
 	}
 
-	public void update(int userId) {
-		String sql = "update room set active_status='inactive', payment='paid' where userid=" + userId;
+	public void update(CustomerDetails c)throws DBException {
+		String sql = "update room set active_status='inactive', payment='paid' where userid=?";
 
-		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement()) {
-			LOGGER.debug(sql);
-			int rows = stmt.executeUpdate(sql);
+		try (Connection con = ConnectionUtil.getConnect();PreparedStatement ps = con.prepareStatement(sql) ) {
+			ps.setInt(1, c.getUserId());
+			int rows = ps.executeUpdate(sql);
 			LOGGER.debug("No of rows updated :" + rows);
 
 		} catch (Exception e) {
 			LOGGER.debug(e);
+			throw new DBException(ErrorConstant. INVALID_UPDATE);
+
 		}
 
 	}
-	public void changePassword(String emailId, String pass,String password) {
-		try (Connection con = ConnectionUtil.getConnect();Statement stmt = con.createStatement()) 
+	public void changePassword(CustomerDetails c) throws DBException{
+		String sql = "update customer_table set pass_word=? where email_id=? and pass_word=?";
+		try (Connection con = ConnectionUtil.getConnect();PreparedStatement ps = con.prepareStatement(sql)) 
 		{
-			String sql = "update customer_table set pass_word='"+password+"' where email_id='"+emailId+"' and pass_word='"+pass+"'";
+			ps.setString(1,c.getPassword());
+			ps.setString(2,c.getEmailId());
+			ps.setString(3,c.getPassword());
 	        System.out.println(sql);
-			int row=stmt.executeUpdate(sql);
+			int row=ps.executeUpdate(sql);
 	        LOGGER.debug(row);
 	        if(row==1)
 	        {
@@ -122,18 +133,20 @@ public class CustomerImpl implements CustomerDAO {
 		} catch (Exception e)
 		{
 			LOGGER.debug(e);
+			throw new DBException(ErrorConstant. INVALID_UPDATE);
+
 		}
 		return;
 	}
 
 
-	public int getUserId(String emailid, String password)  {
+	public int getUserId(CustomerDetails c)throws DBException{
 		String sql="select user_id from customer_table where email_id=? and pass_word=?";
 		System.out.println(sql);
 		int v= 0;
 		try(Connection con = ConnectionUtil.getConnect();PreparedStatement pst = con.prepareStatement(sql);){
-		      pst.setString(1, emailid);
-		      pst.setString(2, password);
+		      pst.setString(1,c.getEmailId() );
+		      pst.setString(2, c.getPassword());
 		try(ResultSet row =pst. executeQuery();)
 		{
 			
@@ -146,8 +159,8 @@ public class CustomerImpl implements CustomerDAO {
 		}
 		catch(Exception e)
 		{
-
-		        LOGGER.error(e);
+		   LOGGER.error(e);
+		   throw new DBException(ErrorConstant.INVALID_SELECT);
 		        }
 		   return v;
 	}

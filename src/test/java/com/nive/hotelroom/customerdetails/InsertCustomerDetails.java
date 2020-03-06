@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.nive.hotelroom.dao.CustomerDAO;
 import com.nive.hotelroom.domain.CustomerDetails;
+import com.nive.hotelroom.exception.DBException;
 import com.nive.hotelroom.factory.DAOFactory;
 import com.nive.hotelroom.util.Logger;
 
@@ -11,7 +12,7 @@ import com.nive.hotelroom.util.Logger;
 public class InsertCustomerDetails {
 	private static Logger LOGGER = Logger.getInstance();
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws DBException {
 		CustomerDetails c=new CustomerDetails();
 		@SuppressWarnings("resource")
 		Scanner s=new Scanner(System.in);

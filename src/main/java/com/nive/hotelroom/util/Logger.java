@@ -1,7 +1,5 @@
 package com.nive.hotelroom.util;
-
-public class Logger {
-	
+public class Logger {	
 		public static Logger getInstance() {
 		Logger logger = new Logger();
 		return logger;

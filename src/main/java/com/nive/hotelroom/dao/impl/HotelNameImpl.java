@@ -3,12 +3,13 @@
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.nive.hotelroom.dao.HotelDAO;
 import com.nive.hotelroom.domain.HotelName;
+import com.nive.hotelroom.exception.DBException;
+import com.nive.hotelroom.exception.ErrorConstant;
 import com.nive.hotelroom.util.ConnectionUtil;
 import com.nive.hotelroom.util.Logger;
 
@@ -16,14 +17,15 @@ public class HotelNameImpl implements HotelDAO {
 	
 	private static Logger LOGGER = Logger.getInstance();
 	
-	public List<HotelName> getHotelDetails() 
+	public List<HotelName> getHotelDetails()throws DBException 
 	{
 		List<HotelName> list = new ArrayList<HotelName>();
 
 		String sql = "select * from hotel";
-		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql))
+		try (Connection con = ConnectionUtil.getConnect();PreparedStatement pst=con.prepareStatement(sql))
 		{
 			LOGGER.debug(sql);
+			ResultSet rs=pst.executeQuery();
 			while (rs.next()) {
 				String hotelname = rs.getString( "hotel_name");
 				String location1 = rs.getString("location" );
@@ -48,18 +50,21 @@ public class HotelNameImpl implements HotelDAO {
 		catch (Exception e)
 		{
 			LOGGER.debug(e);
+			throw new DBException(ErrorConstant.INVALID_SELECT);
+
 		}
 
 		return list;
 	}
-	public List<HotelName> getHotelDetails2() 
+	public List<HotelName> getHotelDetails2()throws DBException 
 	{
 		List<HotelName> list = new ArrayList<HotelName>();
 
 		String sql = "select * from hotel";
-		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql))
+		try (Connection con = ConnectionUtil.getConnect();PreparedStatement pst=con.prepareStatement(sql))
 		{
 			LOGGER.debug(sql);
+			ResultSet rs=pst.executeQuery();
 			while (rs.next()) {
 				String hotelname = rs.getString("hotel_name");
 				String location1 = rs.getString("location" );
@@ -81,19 +86,23 @@ public class HotelNameImpl implements HotelDAO {
 
 		} catch (Exception e) {
 			LOGGER.debug(e);
+			throw new DBException(ErrorConstant.INVALID_SELECT);
+
 		}
 
 		return list;
 	}
 	
-	public List<HotelName> getHotelDetails1(String hotelName) 
+	public List<HotelName> getHotelDetails1(HotelName al) throws DBException
 	{
 		List<HotelName> list = new ArrayList<HotelName>();
 
-		String sql = "select * from hotel where lower(hotel_name)=lower('"+hotelName+"')";
-		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql))
+		String sql = "select * from hotel where lower(hotel_name)=?";
+		try (Connection con = ConnectionUtil.getConnect(); PreparedStatement pst=con.prepareStatement(sql))
 		{
 			LOGGER.debug(sql);
+			pst.setString(1,al.getHotelName());
+			ResultSet rs=pst.executeQuery();
 			while (rs.next()) {
 				String hotelname = rs.getString( "hotel_name");
 				String location1 = rs.getString("location" );
@@ -117,21 +126,20 @@ public class HotelNameImpl implements HotelDAO {
 
 		} catch (Exception e) {
 			LOGGER.debug(e);
+			throw new DBException(ErrorConstant.INVALID_SELECT);
+
 		}
 
 		return list;
 	}
-
-	
-	
-	
-
-	public List<HotelName> getHotelByRating(float rating) 
+	public List<HotelName> getHotelByRating(HotelName al)throws DBException 
 	{
 		List<HotelName> list = new ArrayList<HotelName>();
-		String sql = "select * from hotel where rating=" + rating + "";
-		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
+		String sql = "select * from hotel where rating=?";
+		try (Connection con = ConnectionUtil.getConnect();PreparedStatement pst=con.prepareStatement(sql)) {
 			LOGGER.debug(sql);
+			pst.setFloat(1,al.getRating());
+			ResultSet rs=pst.executeQuery();
 			while (rs.next()) {
 				String hotelname = rs.getString( "hotel_name");
 				String location1 = rs.getString("location" );
@@ -154,18 +162,20 @@ public class HotelNameImpl implements HotelDAO {
 
 		} catch (Exception e) {
 			LOGGER.debug(e);
+			throw new DBException(ErrorConstant.INVALID_SELECT);
+
 		}
 		return list;
 
 	}
-	//
-
-	public List<HotelName> getHotelByLocation(String location)
+	public List<HotelName> getHotelByLocation(HotelName al)throws DBException
 	{
 		List<HotelName> list = new ArrayList<HotelName>();
-		String sql = "select *from hotel  where lower(location)=lower('" + location + "')";
-		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
+		String sql = "select *from hotel  where lower(location)=?";
+		try (Connection con = ConnectionUtil.getConnect();PreparedStatement pst=con.prepareStatement(sql)) {
 			LOGGER.debug(sql);
+			pst.setString(1,al.getLocation());
+			ResultSet rs=pst.executeQuery();
 			while (rs.next()) {
 				String hotelname = rs.getString( "hotel_name");
 				String location1 = rs.getString("location" );
@@ -188,17 +198,21 @@ public class HotelNameImpl implements HotelDAO {
 			}
 		} catch (Exception e) {
 			LOGGER.debug(e);
+			throw new DBException(ErrorConstant.INVALID_SELECT);
+
 		}
 		return list;
 	}
 
-	public List<HotelName>getBookingDetails(int hotel) 
+	public List<HotelName>getBookingDetails(HotelName al) throws DBException
 	{
 		List<HotelName> list = new ArrayList<HotelName>();
 
-		String sql = "select c.hotel_name,r.userid,r.members,r.room_type,r.bed_type,r.check_in,r.check_out,r.payment from hotel c  inner join room r on c.hotel_id=r.hotel where hotel_id="+ hotel;
-		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement();ResultSet rs = stmt.executeQuery(sql)) {
+		String sql = "select c.hotel_name,r.userid,r.members,r.room_type,r.bed_type,r.check_in,r.check_out,r.payment from hotel c  inner join room r on c.hotel_id=r.hotel where hotel_id=?";
+		try (Connection con = ConnectionUtil.getConnect();PreparedStatement pst=con.prepareStatement(sql)) {
 			LOGGER.debug(sql);
+			pst.setInt(1, al.getHotelId());
+			ResultSet rs=pst.executeQuery();
 			while (rs.next()) {
 				String hotelname2 = rs.getString("hotel_name");
 				int Member = rs.getInt("members");
@@ -219,11 +233,12 @@ public class HotelNameImpl implements HotelDAO {
 			}
 		} catch (Exception e) {
 			LOGGER.debug(e);
+			throw new DBException(ErrorConstant.INVALID_SELECT);
 		}
 		return list;
 	}
 
-	public void hotel(HotelName c) 
+	public void hotel(HotelName c)throws DBException 
 	{
 		String sql = "insert into hotel(hotel_id,hotel_name,location,rating,status,RoomType,pic)values(?,?,?,?,?,?,?)";
 		try (Connection con = ConnectionUtil.getConnect();PreparedStatement ps = con.prepareStatement(sql)) 
@@ -240,18 +255,23 @@ public class HotelNameImpl implements HotelDAO {
 			LOGGER.debug("No of rows inserted :" + rows);
 		} catch (Exception e) {
 			LOGGER.debug(e);
+			throw new DBException(ErrorConstant.INVALID_ADD);
 		}
 
 	}
 
-	public void updatetable(int hotelId,String status) {
-		try (Connection con = ConnectionUtil.getConnect(); Statement stmt = con.createStatement()) {
-			String sql = "update hotel set status='"+status+"' where hotel_id=" + hotelId;
+	public void updatetable(HotelName al)throws DBException {
+		String sql = "update hotel set status=? where hotel_id=?";
+		try (Connection con = ConnectionUtil.getConnect();PreparedStatement pst=con.prepareStatement(sql)) {
 			LOGGER.debug(sql);
-			int rows = stmt.executeUpdate(sql);
+			pst.setString(1,al.getStatus());
+			pst.setInt(2, al.getHotelId());
+			int rows = pst.executeUpdate(sql);
 			LOGGER.debug("No of rows updated :" + rows);
 		} catch (Exception e) {
 			LOGGER.debug(e);
+			throw new DBException(ErrorConstant.INVALID_UPDATE);
+
 		}
 
 	}

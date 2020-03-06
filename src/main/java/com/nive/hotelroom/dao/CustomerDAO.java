@@ -3,22 +3,20 @@ package com.nive.hotelroom.dao;
 import java.util.List;
 
 import com.nive.hotelroom.domain.CustomerDetails;
+import com.nive.hotelroom.exception.DBException;
 
 public interface CustomerDAO {
 	
-	public List<CustomerDetails> getUserDetailsByEmail(String emailId);
+	public List<CustomerDetails> getUserDetailsByEmail(CustomerDetails al)throws DBException;
 	
-	public List<CustomerDetails> getUserDetailsByPayment(int userId);
+	public List<CustomerDetails> getUserDetailsByPayment(CustomerDetails al)throws DBException;
 	
-	//@SqlUpdate("insert into customer_table(user_id,user_name,mob_no,city,email_id,pass_word)values(?,?,?,?,?,?)")
-	public void insertcustomerdetalis( CustomerDetails c);
+	public void insertcustomerdetalis( CustomerDetails c)throws DBException;
 	
-	//@SqlUpdate( "update room set active_status='inactive', payment='paid' where userid=?")
-	public void update(int userId);
+	public void update(CustomerDetails c)throws DBException;
 	
-	//@SqlUpdate("update customer_table set pass_word=? where email_id=? and pass_word=?")
-	public void changePassword(String emailId, String pass,String password);
+	public void changePassword(CustomerDetails c)throws DBException;
     
-	public int getUserId(String emailid, String password);
+	public int getUserId(CustomerDetails c)throws DBException;
 
 }

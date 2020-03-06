@@ -3,26 +3,24 @@ package com.nive.hotelroom.customerdetails;
 import java.util.Scanner;
 
 import com.nive.hotelroom.dao.CustomerDAO;
+import com.nive.hotelroom.domain.CustomerDetails;
+import com.nive.hotelroom.exception.DBException;
 import com.nive.hotelroom.factory.DAOFactory;
 import com.nive.hotelroom.util.Logger;
 
 public class ChangePassword {
 	private static Logger LOGGER = Logger.getInstance();
-
-
-	@SuppressWarnings("static-access")
-	public static void main(String[] args) {
-		@SuppressWarnings("resource")
+	public static void main(String[] args) throws DBException {
+		CustomerDetails al=new CustomerDetails();
 		Scanner s=new Scanner(System.in);
 		LOGGER.debug("EmailId:");
-		String emailId=s.nextLine();
+		al.setEmailId(s.nextLine());
 		LOGGER.debug("Password:");
-		String password=s.nextLine();
+		al.setPassword(s.nextLine());
 		LOGGER.debug("New password:");
-		String pass=s.nextLine();
-		
+		al.setPassword(s.nextLine());
 		CustomerDAO p=DAOFactory.getCustomerDAO();
-		p.changePassword(emailId,password,pass);
+		p.changePassword(al);
 
 	}
 
