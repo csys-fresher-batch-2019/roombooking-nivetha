@@ -7,4 +7,4 @@ addons:
 
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=csys-fresher-batch-2019_roombooking-nivetha
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.token=38e86da5cda94dea497c2f0c44e35d1d1396fd5c -Dsonar.projectKey=csys-fresher-batch-2019_roombooking-nivetha
